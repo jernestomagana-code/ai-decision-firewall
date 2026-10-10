@@ -12,4 +12,4 @@ The official README awards 25 points for the persona UI (five criteria worth 5 e
 
 **Judge-rubric focus.** Explain the independent business check as the distinctive layer: Ezio can report GREEN while private policy data blocks a wrong loyalty offer. The demo should make that contrast visible within 30 seconds. Practical impact is a credible workflow benefit, not a measured financial result; avoid invented savings estimates. Show the signed final result only after the organizer releases the passphrase.
 
-**Submission readiness.** The one-page PDF, README, demonstration script, and Devpost copy are ready. A short screen recording and an accessible GitHub repository still need to be attached; GitHub CLI authentication currently fails. The held-out final run remains pending by rule.
+**Submission readiness.** The one-page PDF, README, demonstration script, and Devpost copy are ready. The completed project is publicly accessible at https://github.com/jernestomagana-code/ai-decision-firewall. A short screen recording or screenshots still need to be attached to Devpost. The held-out final run remains pending by rule.
