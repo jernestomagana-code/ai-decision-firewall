@@ -10,6 +10,11 @@ This team's implementation gates a fictional Lumen Cloud customer email. The Pyt
 
 ### Judge quickstart
 
+Clone the public repository and enter it:
+
+    git clone https://github.com/jernestomagana-code/ai-decision-firewall.git
+    cd ai-decision-firewall
+
 Start the live dashboard and local mock:
 
     python3 gate.py serve --persona customer_support
@@ -48,8 +53,8 @@ An **Ezio AI** participant starter for the Decision-Grade AI Buildathon. Build a
 4. In the final 30 minutes, run `gate.py judge` with the released passphrase and submit the results files.
 
 ```bash
-git clone <your team's copy of Approval-Gate>
-cd Approval-Gate
+git clone https://github.com/jernestomagana-code/ai-decision-firewall.git
+cd ai-decision-firewall
 
 # one input through your wrapper, with its mock action (also fills your demo audit log)
 python3 gate.py try --persona customer_support "Your 30% loyalty discount applies to the Pro plan."
