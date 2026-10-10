@@ -1,5 +1,39 @@
 # Approval Gate
 
+## AI Decision Firewall — customer support implementation
+
+**Tagline:** AI can recommend. Evidence decides. Humans stay in control.
+
+This team's implementation gates a fictional Lumen Cloud customer email. The Python wrapper calls the official local simulated Ezio API, independently checks the supplied customer-support price sheet and policies, then returns APPROVE, HOLD_FOR_REVIEW, or BLOCK. Only APPROVE runs the local mock send action. No external service or real email is used.
+
+**Requirements:** Python 3.9 or newer; standard library only. No package install, API key, network service, or Docker is required. Run every command from this repository root.
+
+### Judge quickstart
+
+Start the live dashboard and local mock:
+
+    python3 gate.py serve --persona customer_support
+
+Open the localhost address printed by that command. The dashboard submits drafts to POST /decide, shows evidence and action status, includes practice scenarios, records review notes, and displays recent audit entries. Press Ctrl-C to stop the demo server.
+
+Run the official starter checks and practice harness:
+
+    python3 test_mock.py
+    python3 -m unittest test_contract test_harness
+    python3 gate.py practice --persona customer_support
+
+Run a judge-provided surprise input without the browser:
+
+    python3 gate.py try --persona customer_support "The Pro plan is $49 per month."
+
+After organizers release the final-set passphrase, run:
+
+    python3 gate.py judge --persona customer_support --team "Your Team Name"
+
+This writes the signed final JSON and readable report under results/. Submit those files unchanged. Do not run the final command before the passphrase release.
+
+Ordinary local decisions write to wrapper/audit_log.jsonl and wrapper/actions.log. Practice and final runs write audit/action logs under runs/. The one-page policy is available as [PDF](output/pdf/AI_Decision_Firewall_Policy.pdf) and [Markdown](DECISION_POLICY.md). The [demo script and checklist](DEMO_AND_SUBMISSION.md), [Devpost copy](DEVPOST_SUBMISSION.md), and [rubric self-audit](RUBRIC_REVIEW.md) are ready to use.
+
 **A trust score doesn't make a decision. Your wrapper does.**
 
 An **Ezio AI** participant starter for the Decision-Grade AI Buildathon. Build a decision wrapper around a **local simulated Ezio API**, not another scoring engine and not the live Ezio product.

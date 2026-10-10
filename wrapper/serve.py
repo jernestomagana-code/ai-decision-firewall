@@ -6,6 +6,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 import mock_actions
+import audit
 from wrapper import APPROVE, decide
 
 UI_DIR = Path(__file__).parent / "ui"
@@ -54,6 +55,8 @@ class Handler(BaseHTTPRequestHandler):
             if persona not in PERSONAS:
                 return self.send_json(400, {"error": "Unknown persona"})
             return self.send_json(200, {"samples": samples(persona)})
+        if route == "/api/audit":
+            return self.send_json(200, {"entries": audit.history()})
         served = ui_file(route)
         if served:
             raw, content_type = served
@@ -66,6 +69,19 @@ class Handler(BaseHTTPRequestHandler):
         self.send_json(404, {"error": "Unknown endpoint"})
 
     def do_POST(self):
+        if self.path == "/api/review":
+            try:
+                length = int(self.headers.get("Content-Length") or 0)
+                if not 0 < length <= 100000:
+                    raise ValueError()
+                payload = json.loads(self.rfile.read(length))
+                if (not isinstance(payload, dict) or payload.get("outcome") not in ("REJECT", "PROCEED_TO_RECHECK")
+                        or not isinstance(payload.get("text"), str) or not payload["text"].strip()
+                        or not isinstance(payload.get("reason"), str) or not payload["reason"].strip()):
+                    raise ValueError()
+                return self.send_json(200, audit.review(payload["text"], payload["outcome"], payload["reason"]))
+            except (ValueError, UnicodeDecodeError, OSError):
+                return self.send_json(400, {"error": "Review needs a draft, outcome, and written reason"})
         if self.path != "/decide":
             return self.send_json(404, {"error": "Unknown endpoint"})
         self.connection.settimeout(10)
